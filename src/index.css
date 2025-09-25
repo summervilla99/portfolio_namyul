@@ -1,70 +1,55 @@
 @import "tailwindcss";
+html { scroll-behavior: smooth; }
 
+/* 공통 디자인 토큰 (OKLCH 기반이라 톤 조정 깔끔) */
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  /* Light theme (화이트 + 네이비) */
+  --bg: white;
+  --fg: oklch(20% 0.03 260);         /* 차분한 네이비 톤 텍스트 */
+  --muted: oklch(55% 0.02 250);      /* 중간 회색(본문 보조) */
+  --surface: oklch(97% 0 0);         /* 카드/섹션 배경 */
+  --border: oklch(90% 0 0);          /* 경계선 */
+  --accent: oklch(52% 0.12 255);     /* 네이비 블루 */
+  --accent-contrast: white;          /* 버튼 텍스트 */
+  --link: oklch(45% 0.18 255);       /* 링크 블루 */
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+/* Dark theme (블랙 + 그레이) */
+.dark {
+  --bg: oklch(12% 0 0);              /* 거의 블랙 */
+  --fg: oklch(92% 0.02 260);         /* 밝은 회색 텍스트 */
+  --muted: oklch(70% 0.02 260);
+  --surface: oklch(16% 0.01 260);    /* 카드/섹션 */
+  --border: oklch(25% 0 0);          /* 경계선 */
+  --accent: oklch(70% 0.15 255);     /* 소프트 블루 (다크에서 포인트) */
+  --accent-contrast: oklch(12% 0 0);
+  --link: oklch(80% 0.18 255);
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
+/* 유틸 클래스: 토큰을 Tailwind로 바로 쓰기 */
+body { background: var(--bg); color: var(--fg); }
+.theme-bg      { background: var(--bg); }
+.theme-fg      { color: var(--fg); }
+.theme-surface { background: var(--surface); }
+.theme-border  { border-color: var(--border); }
+.theme-link    { color: var(--link); }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
+.btn {
+  @apply inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-medium transition;
+  background: var(--accent);
+  color: var(--accent-contrast);
 }
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
+.btn:hover { filter: brightness(1.05); }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+.card {
+  @apply rounded-2xl border p-5 shadow-sm;
+  background: var(--surface);
+  border-color: var(--border);
+}
+.navlink {
+  @apply px-3 py-2 rounded-lg;
+  color: var(--fg);
+}
+.navlink:hover {
+  background: color-mix(in oklab, var(--surface), var(--fg) 6%);
 }
