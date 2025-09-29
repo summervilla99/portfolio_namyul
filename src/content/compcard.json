@@ -1,0 +1,40 @@
+{
+  "name_kr": "남율",
+  "name_en": "Nam Yul",
+  "contact": {
+    "phone": "010-3747-9197",
+    "email": "south_yul@kakao.com"
+  },
+  "personal": {
+    "birth": "1999-04-23",
+    "age": 26,
+    "height_cm": 183,
+    "weight_kg": 72,
+    "education": "동국대학교 컴퓨터정보통신공학과 졸업",
+    "skills": ["기타 연주", "농구"],
+    "hobbies": ["문학", "영화", "베이스기타", "태권도(3단)"]
+  },
+  "film": [
+    {"year": 2025, "title": "청하동길", "role": "재현", "type": "단편", "credit": "주연"},
+    {"year": 2025, "title": "뽀뽀해주세요", "role": "현", "type": "단편", "credit": "주연"},
+    {"year": 2025, "title": "무코사", "role": "남자", "type": "단편", "credit": "주연"},
+    {"year": 2025, "title": "정상be정상", "role": "남자", "type": "단편", "credit": "주연"},
+    {"year": 2022, "title": "향화", "type": "단편", "credit": "주연"},
+    {"year": 2022, "title": "계착", "type": "단편", "credit": "조연", "note": "호서대"},
+    {"year": 2022, "title": "안드로이드의 유서", "type": "단편", "credit": "주연"},
+    {"year": 2022, "title": "삶", "type": "단편", "credit": "주연"}
+  ],
+  "theater": [
+    {"year": 2025, "title": "만세는 부르지 않겠다", "role": "사에구사 ", "credit": "주연"},
+    {"year": 2024, "title": "한여름 밤의 꿈", "role": "라이샌더 ", "credit": "주연"}
+  ],
+  "drama": [
+    {"year": "2026", "title": "NETFLIX 천천히 강렬하게", "role": "베이스 ", "platform": "Netflix", "credit": "단역 (공개예정)"},
+    {"year": "2024–2025", "title": "짧은대본", "role": "남율 ", "credit": "주연/조연 등 6편"},
+    {"year": 2023, "title": "썸뮬레이션", "role": "ENTJ ", "credit": "주연"},
+    {"year": 2023, "title": "쓰레기통으로 사는 법", "role": "준서 ", "credit": "주연"}
+  ],
+  "commercials": [
+    {"year": 2025, "title": "육군 CF ‘장교’편", "role": "장교 ", "credit": "주연"}
+  ]
+}

@@ -1,0 +1,7 @@
+[
+  { "src": "/assets/gallery/photo1.png", "alt": "Headshot 01", "ratio": "4/5" },
+  { "src": "/assets/gallery/photo2.png", "alt": "Headshot 02", "ratio": "4/5" },
+  { "src": "/assets/gallery/photo3.jpg", "alt": "Headshot 03", "ratio": "3/4" },
+  { "src": "/assets/gallery/photo4.jpg", "alt": "Headshot 04", "ratio": "3/4" },
+  { "src": "/assets/gallery/photo5.jpg", "alt": "Headshot 05", "ratio": "1/1"  }
+]
