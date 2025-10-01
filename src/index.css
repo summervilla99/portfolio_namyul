@@ -1,55 +1,131 @@
 @import "tailwindcss";
-html { scroll-behavior: smooth; }
 
-/* 공통 디자인 토큰 (OKLCH 기반이라 톤 조정 깔끔) */
+/* ========= GRAY THEME =========
+   :root  = Light Gray 배경(기본)
+   .dark  = Charcoal Gray 배경(다크)
+   * 전반적으로 무채색(그레이/블랙/화이트)만 사용
+*/
+
 :root {
-  /* Light theme (화이트 + 네이비) */
-  --bg: white;
-  --fg: oklch(20% 0.03 260);         /* 차분한 네이비 톤 텍스트 */
-  --muted: oklch(55% 0.02 250);      /* 중간 회색(본문 보조) */
-  --surface: oklch(97% 0 0);         /* 카드/섹션 배경 */
-  --border: oklch(90% 0 0);          /* 경계선 */
-  --accent: oklch(52% 0.12 255);     /* 네이비 블루 */
-  --accent-contrast: white;          /* 버튼 텍스트 */
-  --link: oklch(45% 0.18 255);       /* 링크 블루 */
+  /* Light Gray base */
+  --bg:    oklch(91% 0 0);          /* 페이지 배경: 매우 연한 그레이 */
+  --fg:    oklch(18% 0 0);          /* 본문 텍스트: 진한 그레이(거의 블랙) */
+  --muted: oklch(55% 0 0);          /* 보조 텍스트 */
+
+  /* 표면/테두리: 레이어 구분을 위한 중성 톤 */
+  --surface: oklch(98% 0 0);        /* 카드/섹션 배경: bg보다 아주 살짝 밝음 */
+  --border:  oklch(88% 0 0);        /* 경계선 */
+
+  /* 액센트: 회색 스펙트럼 내에서 또렷한 중명도 */
+  --accent:            oklch(40% 0 0);  /* 버튼/포커스: 미드 그레이 */
+  --accent-contrast:   oklch(98% 0 0);  /* 버튼 텍스트: 거의 화이트 */
+  --link:              oklch(30% 0 0);  /* 링크: 짙은 그레이 (밑줄로 구분) */
 }
 
-/* Dark theme (블랙 + 그레이) */
 .dark {
-  --bg: oklch(12% 0 0);              /* 거의 블랙 */
-  --fg: oklch(92% 0.02 260);         /* 밝은 회색 텍스트 */
-  --muted: oklch(70% 0.02 260);
-  --surface: oklch(16% 0.01 260);    /* 카드/섹션 */
-  --border: oklch(25% 0 0);          /* 경계선 */
-  --accent: oklch(70% 0.15 255);     /* 소프트 블루 (다크에서 포인트) */
-  --accent-contrast: oklch(12% 0 0);
-  --link: oklch(80% 0.18 255);
+    /* Charcoal Gray base */
+  --bg:    oklch(32% 0 0);          /* 페이지 배경: 차콜 */
+  --fg:    oklch(92% 0 0);          /* 본문 텍스트: 밝은 그레이 */
+  --muted: oklch(72% 0 0);
+
+  --surface: oklch(36% 0 0);        /* 카드/섹션 */
+  --border:  oklch(28% 0 0);
+
+  --accent:            oklch(75% 0 0);  /* 버튼: 밝은 그레이 */
+  --accent-contrast:   oklch(12% 0 0);  /* 버튼 텍스트: 어두운 그레이 */
+  --link:              oklch(85% 0 0);  /* 링크: 밝은 그레이 */
 }
 
-/* 유틸 클래스: 토큰을 Tailwind로 바로 쓰기 */
-body { background: var(--bg); color: var(--fg); }
+
+
+/* ====== Base & Subtle Background Texture ======
+   너무 평평해 보이지 않게 아주 약한 라디얼을 살짝 */
+body {
+  color: var(--fg);
+  background:
+    radial-gradient(1200px 700px at 15% -10%, color-mix(in oklab, var(--bg), black 3%), transparent 60%),
+    radial-gradient(900px 600px at 100% 0%,  color-mix(in oklab, var(--bg), black 2%), transparent 60%),
+    var(--bg);
+  background-attachment: fixed;
+}
+
+/* 토큰 유틸 */
 .theme-bg      { background: var(--bg); }
 .theme-fg      { color: var(--fg); }
 .theme-surface { background: var(--surface); }
 .theme-border  { border-color: var(--border); }
 .theme-link    { color: var(--link); }
 
+/* ====== Components ====== */
+
+/* 버튼: 미드그레이 솔리드 */
 .btn {
-  @apply inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-medium transition;
+  @apply inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-medium transition border;
   background: var(--accent);
   color: var(--accent-contrast);
+  border-color: color-mix(in oklab, var(--accent), black 18%);
+  box-shadow: 0 1px 0 color-mix(in oklab, var(--accent), black 35%) inset;
 }
-.btn:hover { filter: brightness(1.05); }
+.btn:hover   { filter: brightness(1.06); transform: translateY(-1px); }
+.btn:active  { transform: translateY(0); }
 
+/* 카드: 여백 넉넉 + 그레이 톤 레이어링 */
 .card {
-  @apply rounded-2xl border p-5 shadow-sm;
+  @apply rounded-2xl border shadow-sm;
   background: var(--surface);
   border-color: var(--border);
+  padding: 1.25rem;              /* p-5 */
 }
+@media (min-width: 768px) {
+  .card { padding: 1.75rem; }    /* md:p-7 */
+}
+
+/* 텍스트 카드 가독성 (Home 소개 / About 등) */
+.content { line-height: 1.75; }
+.content > * + * { margin-top: 0.9rem; }
+@media (min-width: 768px) {
+  .content > * + * { margin-top: 1.1rem; }
+}
+
+/* 탭/내비 링크 – 은은한 회색 네모 박스 */
 .navlink {
-  @apply px-3 py-2 rounded-lg;
+  @apply px-3 py-2 rounded-lg text-sm font-medium transition;
   color: var(--fg);
 }
 .navlink:hover {
   background: color-mix(in oklab, var(--surface), var(--fg) 6%);
+  outline: 1px solid color-mix(in oklab, var(--border), var(--fg) 12%);
+}
+.navlink:focus-visible {
+  outline: 2px solid color-mix(in oklab, var(--accent), white 55%);
+  outline-offset: 2px;
+  border-radius: 0.6rem;
+}
+/* 현재 탭 강조 */
+.navlink[aria-selected="true"],
+.navlink.is-active {
+  background: color-mix(in oklab, var(--surface), var(--fg) 10%);
+  outline: 1px solid color-mix(in oklab, var(--border), var(--fg) 18%);
+}
+
+/* 링크 (회색 테마에선 밑줄로 구분 강화) */
+a[href].link, .content a[href] {
+  color: var(--link);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* 섹션 스크롤 보정(고정 헤더 회피) */
+.section-offset { scroll-margin-top: 96px; }
+
+/* 이미지 blur-up */
+.img-blur { filter: blur(12px); transition: filter .35s ease; }
+.img-blur[data-loaded="true"] { filter: blur(0); }
+
+.section-pulse {
+  animation: sectionPulse .9s ease-out;
+}
+@keyframes sectionPulse {
+  0%   { outline: 2px solid color-mix(in oklab, var(--accent), white 55%); outline-offset: 6px; }
+  100% { outline: 0 solid transparent; outline-offset: 0; }
 }

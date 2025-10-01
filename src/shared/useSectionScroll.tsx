@@ -1,38 +1,47 @@
 // src/shared/useSectionScroll.ts
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useRef } from 'react'
+
+function easeOutCubic(t: number) {
+  return 1 - Math.pow(1 - t, 3)
+}
+
+function smoothScrollTo(targetY: number, duration = 1200) {
+  const startY = window.scrollY
+  const delta = targetY - startY
+  const start = performance.now()
+
+  function step(now: number) {
+    const t = Math.min(1, (now - start) / duration)
+    const eased = easeOutCubic(t)
+    window.scrollTo(0, startY + delta * eased)
+    if (t < 1) requestAnimationFrame(step)
+  }
+  requestAnimationFrame(step)
+}
 
 export function useSectionScroll() {
-  const sections = useRef<Record<string, HTMLElement | null>>({});
+  const mapRef = useRef<Record<string, HTMLElement | null>>({})
 
   const register = useCallback((id: string) => (el: HTMLElement | null) => {
-    sections.current[id] = el;
-  }, []);
-
-  const scrollTo = useCallback((id: string) => {
-    const el = sections.current[id];
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth", block: "start" });
-      const base = location.href.split("#/")[0];
-      history.replaceState(null, "", `${base}#/section=${id}`);
-    }
-  }, []);
+    mapRef.current[id] = el
+  }, [])
 
   const scrollToTop = useCallback(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    const base = location.href.split("#/")[0];
-    history.replaceState(null, "", `${base}#/`);
-  }, []);
+    smoothScrollTo(0, 1200) // 매우 느리게 스크롤
+  }, [])
 
-  useEffect(() => {
-    const m = location.hash.match(/section=([A-Za-z0-9_-]+)/);
-    if (m?.[1]) {
-      // URL에 명시된 섹션으로
-      setTimeout(() => scrollTo(m[1]), 0);
-    } else {
-      // 기본은 최상단
-      setTimeout(() => window.scrollTo({ top: 0, behavior: "auto" }), 0);
-    }
-  }, [scrollTo]);
+  const scrollTo = useCallback((id: string) => {
+    const el = mapRef.current[id]
+    if (!el) return
+    // 고정 헤더 보정(섹션에 section-offset 있어도 약간 더 안정적으로)
+    const HEADER = 96
+    const targetY = Math.max(0, el.getBoundingClientRect().top + window.scrollY - HEADER)
+    smoothScrollTo(targetY, 1100)
 
-  return { register, scrollTo, scrollToTop };
+    // 도착 섹션 살짝 하이라이트(모던한 포커스 느낌)
+    el.classList.add('section-pulse')
+    setTimeout(() => el.classList.remove('section-pulse'), 1000)
+  }, [])
+
+  return { register, scrollTo, scrollToTop }
 }
